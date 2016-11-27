@@ -15,6 +15,7 @@ public abstract class State {
     protected GameStateManager gsm;
 
     protected State(GameStateManager gsm) {
+        // TODO unneeded param, use Singleton for GameStateManager
         this.gsm = gsm;
         cam = new OrthographicCamera();
         mouse = new Vector3();
@@ -31,4 +32,9 @@ public abstract class State {
      * @param sb all that need to be rendered on screen
      */
     public abstract void render(SpriteBatch sb);
+
+    /**
+     * TODO ressemble à une bêtise, utiliser le design pattern Singleton pour instancier une unique fois les objets, et ne pas avoir à allouer/dispose constamment
+     */
+    public abstract void dispose();
 }
