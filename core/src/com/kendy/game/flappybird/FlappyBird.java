@@ -20,7 +20,7 @@ public class FlappyBird extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		img = new Texture("badlogic.jpg");
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 0, 0, 1); // red background
 		gsm.push(new MenuState(gsm));
 	}
 
