@@ -5,12 +5,19 @@ import com.badlogic.gdx.math.Vector3;
 
 /**
  * Set the position of our bird texture on the screen
- * Created by kendy on 27/11/16.
+ * Velocity determines how the bird changes position in time.
+ * His velocity.y determines if he is flying up or down and how fast.
+ * When you set velocity.y to positive 250, you know he will be flying up.
+ * Quickly initially, but as the GRAVITY constant decreases his velocity with each tick by 15,
+ * his rising slows down and he eventually starts falling again when his velocity.y gets to negative values.
+ * Basically velocity says how much you add to his position with each tick as you can see in the update() method.﻿
  */
 
 public class Bird {
 
     private static final int GRAVITY = -15;
+    private static final int FLY = 250;
+
     private Vector3 position;
     private Vector3 velocity;
 
@@ -23,11 +30,23 @@ public class Bird {
     }
 
     public void update(float dt) {
-        velocity.add(0, GRAVITY, 0);
+        // s'il est tombé plus besoin de gravité...
+        if(position.y>0) {
+            velocity.add(0, GRAVITY, 0);
+        }
+
         velocity.scl(dt);
         position.add(0, velocity.y, 0);
 
+        // on ne veut pas qu'il disparaisse, on le met au sol
+        if(position.y<0) {
+            position.y = 0;
+        }
         velocity.scl(1/dt);
+    }
+
+    public void jump() {
+        velocity.y = FLY;
     }
 
     public Vector3 getPosition() {
