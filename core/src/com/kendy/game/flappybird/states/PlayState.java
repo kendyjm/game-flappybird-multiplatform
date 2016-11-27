@@ -4,17 +4,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kendy.game.flappybird.Constants;
 import com.kendy.game.flappybird.GameStateManager;
+import com.kendy.game.flappybird.sprites.Bird;
 
 /**
  * Created by kendy on 27/11/16.
  */
 
 public class PlayState extends State {
-    private Texture bird;
+    private Bird bird;
 
     protected PlayState(GameStateManager gsm) {
         super(gsm);
-        bird = new Texture("bird.png");
+        bird = new Bird(50,100);
         cam.setToOrtho(false, Constants.WIDTH/2, Constants.HEIGHT/2);
     }
 
@@ -28,7 +29,8 @@ public class PlayState extends State {
      */
     @Override
     public void update(float dt) {
-
+        handleInput();
+        bird.update(dt);
     }
 
     /**
@@ -38,7 +40,7 @@ public class PlayState extends State {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(bird, 50, 50);
+        sb.draw(bird.getBird(), bird.getPosition().x, bird.getPosition().y);
         sb.end();
     }
 
