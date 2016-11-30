@@ -28,7 +28,6 @@ public class MenuState extends State {
                 et on libère les ressources
              */
             gsm.set(new PlayState(gsm));
-            dispose();
         }
     }
 
@@ -56,6 +55,7 @@ public class MenuState extends State {
 
     @Override
     public void dispose() {
+        System.out.println("MenuState, dispose!");
         background.dispose();
         playBtn.dispose();
     }

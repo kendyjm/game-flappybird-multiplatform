@@ -23,6 +23,7 @@ public class Tube {
     // minimal distance between top tube opening and ground
     private static final int LOWEST_OPENING = 120;
 
+    // TODO make static for performance sake
     private Texture topTube, bottomTube;
     private Vector2 posTopTube, posBotTube;
     private Random rand;
@@ -84,5 +85,10 @@ public class Tube {
      */
     public boolean collides(Rectangle playerBird) {
         return playerBird.overlaps(boundsTop) || playerBird.overlaps(boundsBottom);
+    }
+
+    public void dispose() {
+        topTube.dispose();
+        bottomTube.dispose();
     }
 }

@@ -18,7 +18,7 @@ public class PlayState extends State {
     private static final int TUBE_COUNT = 4;
 
     private Bird bird;
-    private Texture bg;
+    private Texture background;
 
     private Array<Tube> tubes;
 
@@ -26,7 +26,7 @@ public class PlayState extends State {
         super(gsm);
         bird = new Bird(50,300);
         cam.setToOrtho(false, Constants.WIDTH/2, Constants.HEIGHT/2);
-        bg = new Texture("bg.png");
+        background = new Texture("bg.png");
         tubes = new Array<Tube>();
 
         for (int i = 0; i < TUBE_COUNT; i++) {
@@ -57,6 +57,7 @@ public class PlayState extends State {
             // collides ?
             if (tube.collides(bird.getBounds())) {
                 gsm.set(new PlayState(gsm));
+                return;
             }
 
             // tube is get out the cam position
@@ -76,7 +77,7 @@ public class PlayState extends State {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(bg, cam.position.x - cam.viewportWidth/2, 0);
+        sb.draw(background, cam.position.x - cam.viewportWidth / 2, 0);
         sb.draw(bird.getBird(), bird.getPosition().x, bird.getPosition().y);
         for (Tube tube : tubes) {
             sb.draw(tube.getTopTube(), tube.getPosTopTube().x, tube.getPosTopTube().y);
@@ -90,6 +91,11 @@ public class PlayState extends State {
      */
     @Override
     public void dispose() {
-
+        background.dispose();
+        bird.dispose();
+        for (Tube tube : tubes) {
+            tube.dispose();
+        }
+        System.out.println("PlayState, dispose!");
     }
 }
