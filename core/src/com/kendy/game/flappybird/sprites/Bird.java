@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 public class Bird {
 
     private static final int GRAVITY = -15;
+    private static final int MOVEMENT_HORIZONTAL = 100;
     private static final int FLY = 250;
 
     private Vector3 position;
@@ -36,7 +37,7 @@ public class Bird {
         }
 
         velocity.scl(dt);
-        position.add(0, velocity.y, 0);
+        position.add(MOVEMENT_HORIZONTAL * dt, velocity.y, 0);
 
         // on ne veut pas qu'il disparaisse, on le met au sol
         if(position.y<0) {

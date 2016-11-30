@@ -10,6 +10,9 @@ import java.util.Random;
  */
 
 public class Tube {
+    // this is the real WIDTH of toptube.png and bottomtube.png
+    public static final int TUBE_WIDTH = 52;
+
     // height variation of the tube
     private static final int FLUCTUATION = 130;
 
@@ -27,9 +30,10 @@ public class Tube {
         topTube = new Texture("toptube.png");
         bottomTube = new Texture("bottomtube.png");
         rand = new Random();
+        posTopTube = new Vector2();
+        posBotTube = new Vector2();
 
-         posTopTube= new Vector2(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
-        posBotTube = new Vector2(x, posTopTube.y - TUBE_GAP - bottomTube.getHeight());
+        reposition(x);
     }
 
     public Texture getBottomTube() {
@@ -46,5 +50,16 @@ public class Tube {
 
     public Texture getTopTube() {
         return topTube;
+    }
+
+    /**
+     * place the tube at init
+     * and reposition it when the tubes leave the screen
+     *
+     * @param x
+     */
+    public void reposition(float x) {
+        posTopTube.set(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
+        posBotTube.set(x, posTopTube.y - TUBE_GAP - bottomTube.getHeight());
     }
 }
