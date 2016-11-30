@@ -1,6 +1,7 @@
 package com.kendy.game.flappybird.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.Random;
@@ -26,12 +27,20 @@ public class Tube {
     private Vector2 posTopTube, posBotTube;
     private Random rand;
 
+    // 2D rectangle defining the bounds of the tubes, used for collision detection
+    private Rectangle boundsTop, boundsBottom;
+
+
     public Tube(float x) {
         topTube = new Texture("toptube.png");
         bottomTube = new Texture("bottomtube.png");
         rand = new Random();
         posTopTube = new Vector2();
         posBotTube = new Vector2();
+
+        // bounds
+        boundsTop = new Rectangle();
+        boundsBottom = new Rectangle();
 
         reposition(x);
     }
@@ -61,5 +70,19 @@ public class Tube {
     public void reposition(float x) {
         posTopTube.set(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
         posBotTube.set(x, posTopTube.y - TUBE_GAP - bottomTube.getHeight());
+
+        // bounds
+        boundsTop.set(posTopTube.x, posTopTube.y, topTube.getWidth(), topTube.getHeight());
+        boundsBottom.set(posBotTube.x, posBotTube.y, bottomTube.getWidth(), bottomTube.getHeight());
+    }
+
+    /**
+     * Check if the bird collides with on the obstacles (tubes, their bounds exactly)
+     *
+     * @param playerBird, rectangle bounding the bird
+     * @return
+     */
+    public boolean collides(Rectangle playerBird) {
+        return playerBird.overlaps(boundsTop) || playerBird.overlaps(boundsBottom);
     }
 }
