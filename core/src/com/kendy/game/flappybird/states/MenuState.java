@@ -11,8 +11,8 @@ import com.kendy.game.flappybird.Constants;
  */
 
 public class MenuState extends State {
-    private static Texture background = new Texture("bg.png");
-    private static Texture playBtn = new Texture("playBtn.png");
+    private static final Texture background = new Texture("bg.png");
+    private static final Texture playBtn = new Texture("playBtn.png");
 
     private static final OrthographicCamera cam = new OrthographicCamera();
     private static final MenuState instance = new MenuState();
@@ -27,7 +27,7 @@ public class MenuState extends State {
     }
 
     @Override
-    public void handleInput() {
+    protected void handleInput() {
         if(Gdx.input.justTouched()) {
             /*
              * on a touché l'écran, on passe à l'état suivant : le jeu!

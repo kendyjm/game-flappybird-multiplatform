@@ -9,9 +9,9 @@ import com.kendy.game.flappybird.GameStateManager;
 
 public abstract class State {
     //protected Vector3 mouse;
-    protected GameStateManager gsm;
+    final GameStateManager gsm;
 
-    protected State() {
+    State() {
         this.gsm = GameStateManager.getInstance();
         //mouse = new Vector3();
     }

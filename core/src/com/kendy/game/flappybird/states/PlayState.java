@@ -52,7 +52,7 @@ public class PlayState extends State {
         //init();
     }
 
-    public static void init() {
+    private static void init() {
         bird.init(50, 300);
 
         cam.setToOrtho(false, Constants.WIDTH/2, Constants.HEIGHT/2);

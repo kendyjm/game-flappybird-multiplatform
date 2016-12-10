@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
  * Created by kendy on 30/11/16.
  */
 
-public class Animation {
+class Animation {
     private final Array<TextureRegion> frames;
     // how long before we switch to the next frame
     private final float maxFrameTime;
