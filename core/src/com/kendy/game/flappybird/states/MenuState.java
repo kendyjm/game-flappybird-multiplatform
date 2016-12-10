@@ -1,34 +1,38 @@
 package com.kendy.game.flappybird.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kendy.game.flappybird.Constants;
-import com.kendy.game.flappybird.GameStateManager;
 
 /**
  * Created by kendy on 27/11/16.
  */
 
 public class MenuState extends State {
-    private Texture background;
-    private Texture playBtn;
+    private static Texture background = new Texture("bg.png");
+    private static Texture playBtn = new Texture("playBtn.png");
 
-    public MenuState(GameStateManager gsm) {
-        super(gsm);
+    private static final OrthographicCamera cam = new OrthographicCamera();
+    private static final MenuState instance = new MenuState();
+
+    public static MenuState getInstance() {
+        return instance;
+    }
+
+    private MenuState() {
+        super();
         cam.setToOrtho(false, Constants.WIDTH / 2, Constants.HEIGHT / 2);
-        background = new Texture("bg.png");
-        playBtn = new Texture("playBtn.png");
     }
 
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()) {
             /*
-                on a touché l'écran, on passe à l'état suivant : le jeu!
-                et on libère les ressources
+             * on a touché l'écran, on passe à l'état suivant : le jeu!
              */
-            gsm.set(new PlayState(gsm));
+            gsm.set(PlayState.getInstance(true));
         }
     }
 
@@ -59,7 +63,7 @@ public class MenuState extends State {
     @Override
     public void dispose() {
         System.out.println("MenuState, dispose!");
-        background.dispose();
-        playBtn.dispose();
+        //background.dispose();
+        //playBtn.dispose();
     }
 }

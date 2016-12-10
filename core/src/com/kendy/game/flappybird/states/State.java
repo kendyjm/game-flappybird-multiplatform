@@ -1,8 +1,6 @@
 package com.kendy.game.flappybird.states;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 import com.kendy.game.flappybird.GameStateManager;
 
 /**
@@ -10,15 +8,12 @@ import com.kendy.game.flappybird.GameStateManager;
  */
 
 public abstract class State {
-    protected OrthographicCamera cam;
-    protected Vector3 mouse;
+    //protected Vector3 mouse;
     protected GameStateManager gsm;
 
-    protected State(GameStateManager gsm) {
-        // TODO unneeded param, use Singleton for GameStateManager
-        this.gsm = gsm;
-        cam = new OrthographicCamera();
-        mouse = new Vector3();
+    protected State() {
+        this.gsm = GameStateManager.getInstance();
+        //mouse = new Vector3();
     }
 
     protected abstract void handleInput();
@@ -34,7 +29,7 @@ public abstract class State {
     public abstract void render(SpriteBatch sb);
 
     /**
-     * TODO ressemble à une bêtise, utiliser le design pattern Singleton pour instancier une unique fois les objets, et ne pas avoir à allouer/dispose constamment
+     * TODO appel en quittant le jeu
      */
     public abstract void dispose();
 }

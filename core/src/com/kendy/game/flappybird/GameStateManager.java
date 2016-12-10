@@ -10,10 +10,16 @@ import java.util.Stack;
  */
 
 public class GameStateManager {
-    private Stack<State> states;
+    private final Stack<State> states;
 
-    public GameStateManager() {
+    private static final GameStateManager instance = new GameStateManager();
+
+    private GameStateManager() {
         states = new Stack<State>();
+    }
+
+    public static GameStateManager getInstance() {
+        return instance;
     }
 
     public void push(State state) {

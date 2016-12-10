@@ -10,28 +10,26 @@ import com.kendy.game.flappybird.states.MenuState;
 public class FlappyBird extends ApplicationAdapter {
 
 	// one instance during application life
-	private GameStateManager gsm;
 	private SpriteBatch batch;
     private Music music;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		gsm = new GameStateManager();
         music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         music.setLooping(true);
         music.setVolume(0.1f);
         music.play();
         Gdx.gl.glClearColor(1, 0, 0, 1); // red background
-		gsm.push(new MenuState(gsm));
+		GameStateManager.getInstance().push(MenuState.getInstance());
 	}
 
 	@Override
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		gsm.update(Gdx.graphics.getDeltaTime());
-		gsm.render(batch);
+		GameStateManager.getInstance().update(Gdx.graphics.getDeltaTime());
+		GameStateManager.getInstance().render(batch);
 		/*batch.begin();
 		batch.draw(img, 0, 0);
 		batch.end();*/

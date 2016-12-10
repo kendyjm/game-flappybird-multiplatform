@@ -21,6 +21,7 @@ android {
         applicationId "com.kendy.game.flappybird"
         minSdkVersion 9
         targetSdkVersion 24
+        multiDexEnabled true
     }
 }
 

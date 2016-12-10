@@ -8,12 +8,12 @@ import com.badlogic.gdx.utils.Array;
  */
 
 public class Animation {
-    private Array<TextureRegion> frames;
+    private final Array<TextureRegion> frames;
     // how long before we switch to the next frame
-    private float maxFrameTime;
+    private final float maxFrameTime;
     private float currentFrameTime;
     // number of frames in our animation
-    private int frameCount;
+    private final int frameCount;
     private int currentFrame;
 
 

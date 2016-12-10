@@ -23,23 +23,24 @@ public class Bird {
     private static final int MOVEMENT_HORIZONTAL = 100;
     private static final int FLY = 250;
 
-    private Vector3 position;
-    private Vector3 velocity;
+    private static final Vector3 position = new Vector3(0, 0, 0);
+    private static final Vector3 velocity = new Vector3(0, 0, 0);
+    private static final Rectangle bounds = new Rectangle(0, 0, 0, 0);
 
-    private Rectangle bounds;
-    private Animation birdAnimation;
-    private Texture birds;
-
-    private Sound flap;
+    private static final Texture birds = new Texture("birdanimation.png");
+    private static final Animation birdAnimation = new Animation(new TextureRegion(birds), 3, 0.5f);
+    private static final Sound flap = Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg"));
 
     public Bird(int x, int y) {
-        position = new Vector3(x, y , 0);
-        velocity = new Vector3(0, 0, 0);
-        birds = new Texture("birdanimation.png");
-        birdAnimation = new Animation(new TextureRegion(birds), 3, 0.5f);
-        bounds = new Rectangle(x, y, birds.getWidth() / 3, birds.getHeight());
-        flap = Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg"));
+        init(x, y);
     }
+
+    public void init(int x, int y) {
+        position.set(x, y, 0);
+        velocity.set(0, 0, 0);
+        bounds.set(x, y, birds.getWidth() / 3, birds.getHeight());
+    }
+
 
     public void update(float dt) {
         birdAnimation.update(dt);
@@ -78,7 +79,7 @@ public class Bird {
     }
 
     public void dispose() {
-        birds.dispose();
-        flap.dispose();
+        //birds.dispose();
+        //flap.dispose();
     }
 }

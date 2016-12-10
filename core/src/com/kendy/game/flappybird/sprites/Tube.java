@@ -23,26 +23,19 @@ public class Tube {
     // minimal distance between top tube opening and ground
     private static final int LOWEST_OPENING = 120;
 
-    // TODO make static for performance sake
-    private Texture topTube, bottomTube;
-    private Vector2 posTopTube, posBotTube;
-    private Random rand;
+    private static final Texture topTube = new Texture("toptube.png");
+    private static final Texture bottomTube = new Texture("bottomtube.png");
+    private final Vector2 posTopTube = new Vector2();
+    private final Vector2 posBotTube = new Vector2();
+    private final Random rand = new Random();
 
     // 2D rectangle defining the bounds of the tubes, used for collision detection
-    private Rectangle boundsTop, boundsBottom;
+    private final Rectangle boundsTop = new Rectangle();
+    private final Rectangle boundsBottom = new Rectangle();
 
-
+    private final float id;
     public Tube(float x) {
-        topTube = new Texture("toptube.png");
-        bottomTube = new Texture("bottomtube.png");
-        rand = new Random();
-        posTopTube = new Vector2();
-        posBotTube = new Vector2();
-
-        // bounds
-        boundsTop = new Rectangle();
-        boundsBottom = new Rectangle();
-
+        id = x;
         reposition(x);
     }
 
@@ -85,6 +78,11 @@ public class Tube {
      */
     public boolean collides(Rectangle playerBird) {
         return playerBird.overlaps(boundsTop) || playerBird.overlaps(boundsBottom);
+    }
+
+    @Override
+    public String toString() {
+        return "id=" + id + ", posTopTube=" + posTopTube.toString() + ", posBotTube=" + posBotTube.toString();
     }
 
     public void dispose() {

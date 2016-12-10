@@ -1,14 +1,16 @@
 package com.kendy.game.flappybird.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.kendy.game.flappybird.Constants;
-import com.kendy.game.flappybird.GameStateManager;
 import com.kendy.game.flappybird.sprites.Bird;
 import com.kendy.game.flappybird.sprites.Tube;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kendy on 27/11/16.
@@ -19,27 +21,51 @@ public class PlayState extends State {
     private static final int TUBE_COUNT = 4;
     private static final int GROUND_Y_OFFSET = -50;
 
-    private Bird bird;
-    private Texture background;
-    private Texture ground;
-    private Vector2 groundPos1, groundPos2;
+    private static final OrthographicCamera cam = new OrthographicCamera();
 
-    private Array<Tube> tubes;
+    private static final Bird bird = new Bird(50, 300); // TODO singleton
+    private static final Texture background = new Texture("bg.png");
+    private static final Texture ground = new Texture("ground.png");
+    private static final Vector2 groundPos1 = new Vector2(0, 0);
+    private static final Vector2 groundPos2 = new Vector2(0, 0);
+    private static final List<Tube> tubes = new ArrayList<Tube>(TUBE_COUNT);
 
-    protected PlayState(GameStateManager gsm) {
-        super(gsm);
-        bird = new Bird(50,300);
-        cam.setToOrtho(false, Constants.WIDTH/2, Constants.HEIGHT/2);
-        background = new Texture("bg.png");
-        ground = new Texture("ground.png");
-        groundPos1 = new Vector2(cam.position.x - cam.viewportWidth / 2, GROUND_Y_OFFSET);
-        groundPos2 = new Vector2(cam.position.x - cam.viewportWidth / 2 + ground.getWidth(), GROUND_Y_OFFSET);
-        tubes = new Array<Tube>();
-
+    static {
         for (int i = 0; i < TUBE_COUNT; i++) {
             Tube tube = new Tube(i * (TUBE_SPACING + Tube.TUBE_WIDTH));
-            tubes.add(tube);
+            tubes.add(i, tube);
+            System.out.println("PlayState, static, tubes=" + tubes);
         }
+    }
+
+    private static final PlayState instance = new PlayState();
+
+    public static PlayState getInstance(boolean reset) {
+        if (reset) {
+            init();
+        }
+        return instance;
+    }
+
+    private PlayState() {
+        super();
+        //init();
+    }
+
+    public static void init() {
+        bird.init(50, 300);
+
+        cam.setToOrtho(false, Constants.WIDTH/2, Constants.HEIGHT/2);
+        cam.position.x = bird.getPosition().x + 80;
+
+        groundPos1.set(cam.position.x - cam.viewportWidth / 2, GROUND_Y_OFFSET);
+        groundPos2.set(cam.position.x - cam.viewportWidth / 2 + ground.getWidth(), GROUND_Y_OFFSET);
+
+        for (int i = 0; i < TUBE_COUNT; i++) {
+            Tube tube = tubes.get(i);
+            tube.reposition(i * (TUBE_SPACING + Tube.TUBE_WIDTH));
+        }
+        System.out.println("PlayState, init, tubes=" + tubes);
     }
 
     @Override
@@ -64,7 +90,9 @@ public class PlayState extends State {
         for (Tube tube : tubes) {
             // collides ?
             if (tube.collides(bird.getBounds())) {
-                gsm.set(new PlayState(gsm));
+                //gsm.set(PlayState.getInstance());
+                //dispose();
+                init();
                 return;
             }
 
@@ -77,7 +105,9 @@ public class PlayState extends State {
         // bird is on the ground ?
         if (bird.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET) {
             System.out.println("PlayState, fall on the ground!");
-            gsm.set(new PlayState(gsm));
+            //gsm.set(PlayState.getInstance());
+            //dispose();
+            init();
             return;
         }
 
@@ -115,17 +145,11 @@ public class PlayState extends State {
         }
     }
 
-    /**
-     * TODO ressemble à une bêtise, utiliser le design pattern Singleton pour instancier une unique fois les objets, et ne pas avoir à allouer/dispose constamment
-     */
     @Override
     public void dispose() {
-        background.dispose();
-        ground.dispose();
-        bird.dispose();
-        for (Tube tube : tubes) {
-            tube.dispose();
-        }
         System.out.println("PlayState, dispose!");
+        //background.dispose();
+        //ground.dispose();
+        //bird.dispose();
     }
 }
