@@ -3,11 +3,15 @@ package com.kendy.game.flappybird.sprites;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.logging.Logger;
+
 /**
  * Created by kendy on 30/11/16.
  */
 
 class Animation {
+    private final static Logger LOGGER = Logger.getLogger(Animation.class.getName());
+
     private final Array<TextureRegion> frames;
     // how long before we switch to the next frame
     private final float maxFrameTime;
@@ -60,7 +64,7 @@ class Animation {
     }
 
     public void dispose() {
-        System.out.println("Animation, dispose!");
+        LOGGER.info("Animation, dispose!");
         // TODO dispose frames
     }
 }

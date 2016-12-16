@@ -82,7 +82,7 @@ public class Tube {
 
     @Override
     public String toString() {
-        return "id=" + id + ", posTopTube=" + posTopTube.toString() + ", posBotTube=" + posBotTube.toString();
+        return "id=" + id + "-posTopTube=" + posTopTube.toString() + "-posBotTube=" + posBotTube.toString();
     }
 
     public void dispose() {

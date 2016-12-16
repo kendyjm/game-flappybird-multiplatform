@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import java.util.logging.Logger;
 import com.kendy.game.flappybird.Constants;
 import com.kendy.game.flappybird.sprites.Bird;
 import com.kendy.game.flappybird.sprites.Tube;
@@ -17,6 +18,8 @@ import java.util.List;
  */
 
 public class PlayState extends State {
+    private final static Logger LOGGER = Logger.getLogger(PlayState.class.getName());
+
     private static final int TUBE_SPACING = 125;
     private static final int TUBE_COUNT = 4;
     private static final int GROUND_Y_OFFSET = -50;
@@ -34,13 +37,14 @@ public class PlayState extends State {
         for (int i = 0; i < TUBE_COUNT; i++) {
             Tube tube = new Tube(i * (TUBE_SPACING + Tube.TUBE_WIDTH));
             tubes.add(i, tube);
-            System.out.println("PlayState, static, tubes=" + tubes);
+            LOGGER.info("PlayState, static, tubes=" + tubes);
         }
     }
 
     private static final PlayState instance = new PlayState();
 
     public static PlayState getInstance(boolean reset) {
+        LOGGER.info("PlayState, getInstance, reset:" + reset);
         if (reset) {
             init();
         }
@@ -65,7 +69,7 @@ public class PlayState extends State {
             Tube tube = tubes.get(i);
             tube.reposition(i * (TUBE_SPACING + Tube.TUBE_WIDTH));
         }
-        System.out.println("PlayState, init, tubes=" + tubes);
+        LOGGER.info("PlayState, init, tubes("+ tubes.size() + ")=" + tubes);
     }
 
     @Override
@@ -88,26 +92,28 @@ public class PlayState extends State {
         cam.position.x = bird.getPosition().x + 80;
 
         for (Tube tube : tubes) {
-            // collides ?
-            if (tube.collides(bird.getBounds())) {
-                //gsm.set(PlayState.getInstance());
-                //dispose();
-                init();
-                return;
-            }
-
             // tube is get out the cam position
             if (cam.position.x - cam.viewportWidth / 2 > tube.getPosTopTube().x + tube.getTopTube().getWidth()) {
                 tube.reposition(tube.getPosTopTube().x + (Tube.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT);
+            }
+
+            // collides ?
+            if (tube.collides(bird.getBounds())) {
+                LOGGER.info("PlayState, collides tube!");
+                gsm.set(MenuState.getInstance());
+                //dispose();
+                //init();
+
+                //return;
             }
         }
 
         // bird is on the ground ?
         if (bird.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET) {
-            System.out.println("PlayState, fall on the ground!");
-            //gsm.set(PlayState.getInstance());
+            LOGGER.info("PlayState, fall on the ground!");
+            gsm.set(MenuState.getInstance());
             //dispose();
-            init();
+            //init();
             return;
         }
 
@@ -147,7 +153,7 @@ public class PlayState extends State {
 
     @Override
     public void dispose() {
-        System.out.println("PlayState, dispose!");
+        LOGGER.info("PlayState, dispose!");
         //background.dispose();
         //ground.dispose();
         //bird.dispose();

@@ -6,11 +6,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kendy.game.flappybird.Constants;
 
+import java.util.logging.Logger;
+
 /**
  * Created by kendy on 27/11/16.
  */
 
 public class MenuState extends State {
+    private final static Logger LOGGER = Logger.getLogger(MenuState.class.getName());
+
     private static final Texture background = new Texture("bg.png");
     private static final Texture playBtn = new Texture("playBtn.png");
 
@@ -62,7 +66,7 @@ public class MenuState extends State {
 
     @Override
     public void dispose() {
-        System.out.println("MenuState, dispose!");
+        LOGGER.info("MenuState, dispose!");
         //background.dispose();
         //playBtn.dispose();
     }
